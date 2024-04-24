@@ -1,0 +1,29 @@
+name: Lab 5
+
+on:
+  push:
+    branches: [dev]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: fedora-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Build code
+        run: <BUILD>
+
+  deploy_to_test:
+    runs-on: fedora-latest
+    needs: build
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+        with:
+          ref: dev
+      - name: Push to test branch
+        run: |
+          git checkout -b test
+          git push origin test
